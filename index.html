@@ -1,79 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>💌 Valentine Invitation</title>
-  <style>
+<meta charset="UTF-8">
+<title>💌 Valentine Invitation</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        font-family: 'Pacifico', cursive;
+        overflow: hidden;
     }
 
     .card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      padding: 40px;
-      text-align: center;
-      max-width: 400px;
-      position: relative;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+        width: 350px;
+        animation: float 4s ease-in-out infinite;
     }
 
-    h1 { color: #ff6b81; margin-bottom: 10px; }
-    p { color: #555; font-size: 18px; margin-bottom: 30px; }
-    .hearts { position: absolute; top: -20px; right: -20px; font-size: 40px; animation: float 4s infinite; }
-    @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
 
-    .btn { padding: 12px 25px; margin: 10px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.3s; }
-    .yes { background: #ff6b81; color: white; }
-    .yes:hover { background: #ff4757; }
-    .no { background: #d3d3d3; color: #333; }
-    .no:hover { background: #b0b0b0; }
-  </style>
+    h1 {
+        font-size: 2em;
+        color: #ff4b5c;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1.1em;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    button {
+        background: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        margin: 5px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(255,75,92,0.4);
+    }
+
+    .hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #ff4b5c;
+        transform: rotate(-45deg);
+        animation: rise 5s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #ff4b5c;
+        border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+
+    @keyframes rise {
+        0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+        100% { transform: translateY(-600px) rotate(-45deg); opacity: 0; }
+    }
+</style>
 </head>
 <body>
+<div class="card">
+    <h1>💖 Will You Be My Valentine? 💖</h1>
+    <p>I made this special card just for you! Click below to say yes or no.</p>
+    <button onclick="sendYes()">Yes 💌</button>
+    <button onclick="noClick()">No 😢</button>
+    <div class="hearts"></div>
+</div>
 
-  <div class="card">
-    <div class="hearts">💖</div>
-    <h1>Will You Be My Valentine? 💌</h1>
-    <p>I would love to spend some time with you this Valentine's Day! 😍</p>
-    <button class="btn yes" id="yesBtn">Yes</button>
-    <button class="btn no" id="noBtn">No</button>
-  </div>
-
-  <!-- Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const SUPABASE_URL = 'https://xhunxjynsnrmkgabdtjz.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhodW54anluc25ybWtnYWJkdGp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MTIwNDksImV4cCI6MjA4NjA4ODA0OX0.o86x2N7GXcyKq-tk0wbKbrgv8lUjWRf6PdRuoTRyCNw';
-
-    const { createClient } = supabase;
-    const client = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function sendAnswer(answer) {
-      const { error } = await client
-        .from('valentine_answers')
-        .insert([{ answer }]);
-
-      if (error) {
-        alert('Oops! Something went wrong :cry:');
-        console.error(error);
-      } else {
-        alert(`Thanks! You clicked ${answer} 💖`);
-      }
+    // Function to send Yes email via mailto
+    function sendYes() {
+        window.location.href = "mailto:your-email@example.com?subject=Valentine%20RSVP&body=I%20said%20YES!%20💖";
     }
 
-    document.getElementById('yesBtn').addEventListener('click', () => sendAnswer('Yes'));
-    document.getElementById('noBtn').addEventListener('click', () => sendAnswer('No'));
-  });
-</script>
+    // Function to playfully dodge "No" click
+    function noClick() {
+        const btn = event.target;
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
 
+    // Generate floating hearts
+    const heartsContainer = document.querySelector('.hearts');
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.width = heart.style.height = (10 + Math.random() * 20) + 'px';
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+</script>
 </body>
 </html>
-
