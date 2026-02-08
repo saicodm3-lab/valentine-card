@@ -2,120 +2,47 @@
 <head>
   <meta charset="UTF-8">
   <title>Valentine Invitation 💘</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.29.0/dist/supabase.min.js"></script>
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-    }
-
-    .card {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      animation: pop 1s ease;
-      max-width: 320px;
-    }
-
-    h1 {
-      color: #ff4d6d;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #555;
-      font-size: 18px;
-    }
-
-    .heart {
-      font-size: 40px;
-      animation: beat 1s infinite;
-      margin: 15px 0;
-    }
-
-    button {
-      background: #ff4d6d;
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 8px;
-      transition: transform 0.2s;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-    }
-
-    @keyframes beat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { font-size: 1.2em; margin: 10px; padding: 10px 20px; cursor: pointer; }
   </style>
+</head>
+<body>
+  <h1>Hi baby 💕</h1>
+  <p>Will you be my Valentine? ✨</p>
+  <button id="btn-yes">Yes 💘</button>
+  <button id="btn-no">No 🙈</button>
+  <p id="response"></p>
 
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.29.0/dist/supabase.min.js"></script>
-<script>
-  // Wait until the DOM is fully loaded
-  document.addEventListener("DOMContentLoaded", () => {
-
+  <script>
+    // Supabase setup
     const SUPABASE_URL = "https://xhunxjynsnrmkgabdtjz.supabase.co";
     const SUPABASE_KEY = "sb_publishable_j5y-wN2t5zzgCXtx3RnkGA_rBaF5hry";
-
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Function to send response to Supabase
     async function sendResponse(answer) {
       const { error } = await supabase
         .from("responses")
-        .insert([{ answer: answer }]);
+        .insert([{ answer }]);
 
       if (error) {
-        document.getElementById("response").innerHTML =
-          "Oops 😢 something went wrong";
-        console.error(error);
+        document.getElementById("response").textContent = "Oops 😢 something went wrong";
+        console.error("Supabase error:", error);
       } else {
-        document.getElementById("response").innerHTML =
+        document.getElementById("response").textContent =
           answer === "YES"
-          ? "Yay! 💖 I got your answer 🥰"
-          : "Thank you for being honest 💗";
+            ? "Yay! 💖 I got your answer 🥰"
+            : "Thank you for being honest 💗";
       }
     }
 
-    window.yes = () => sendResponse("YES");
-    window.no = () => sendResponse("NO");
-
-  });
-</script>
-  
-</head>
-<body>
-
-  <div class="card">
-    <h1>hi baby 💕</h1>
-    <div class="heart">❤️</div>
-    <p>
-      Will you be my Valentine?<br>
-      Let’s make this day extra special ✨
-    </p>
-    <button onclick="yes()">Yes 💘</button>
-    <button onclick="no()">No 🙈</button>
-    <p id="response"></p>
-  </div>
+    // Attach event listeners to buttons
+    document.getElementById("btn-yes").addEventListener("click", () => sendResponse("YES"));
+    document.getElementById("btn-no").addEventListener("click", () => sendResponse("NO"));
+  </script>
 </body>
-
-
 </html>
+
 
