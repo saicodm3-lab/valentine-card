@@ -68,42 +68,36 @@
 
 <!-- Supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
 <script>
-  const SUPABASE_URL = "https://xhunxjynsnrmkgabdtjz.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_j5y-wN2t5zzgCXtx3RnkGA_rBaF5hry";
+  // Wait until the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", () => {
 
-  const supabase = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    const SUPABASE_URL = "https://xhunxjynsnrmkgabdtjz.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_j5y-wN2t5zzgCXtx3RnkGA_rBaF5hry";
 
-  async function sendResponse(answer) {
-    const { error } = await supabase
-      .from("responses")
-      .insert([{ answer: answer }]);
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (error) {
-      document.getElementById("response").innerHTML =
-        "Oops 😢 something went wrong";
-      console.error(error);
-    } else {
-      document.getElementById("response").innerHTML =
-        answer === "YES"
-        ? "Yay! 💖 I got your answer 🥰"
-        : "Thank you for being honest 💗";
+    async function sendResponse(answer) {
+      const { error } = await supabase
+        .from("responses")
+        .insert([{ answer: answer }]);
+
+      if (error) {
+        document.getElementById("response").innerHTML =
+          "Oops 😢 something went wrong";
+        console.error(error);
+      } else {
+        document.getElementById("response").innerHTML =
+          answer === "YES"
+          ? "Yay! 💖 I got your answer 🥰"
+          : "Thank you for being honest 💗";
+      }
     }
-  }
 
-  function yes() {
-    sendResponse("YES");
-    console.log("yes");
-  }
+    window.yes = () => sendResponse("YES");
+    window.no = () => sendResponse("NO");
 
-  function no() {
-    sendResponse("NO");
-    console.log("no");
-  }
+  });
 </script>
   
 </head>
@@ -121,5 +115,6 @@
     <p id="response"></p>
   </div>
 </body>
+
 
 </html>
