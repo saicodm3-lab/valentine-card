@@ -111,8 +111,13 @@
 <script>
     // Function to send Yes email via mailto
     function sendYes() {
-        window.location.href = "mailto:cyrellmagat21@gmail.com?subject=Valentine%20RSVP&body=I%20said%20YES!%20💖";
-    }
+    const email = "cyrellmagat21@gmail.com";
+    const subject = "Valentine RSVP";
+    const body = "I said YES! 💖";
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailLink, '_blank');
+}
+
 
     // Function to playfully dodge "No" click
     function noClick() {
@@ -135,4 +140,5 @@
 </script>
 </body>
 </html>
+
 
