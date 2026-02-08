@@ -81,17 +81,40 @@
     <p id="response"></p>
   </div>
 
-  <script>
-    function yes() {
-      document.getElementById("response").innerHTML =
-        "Yay! 💖 I can’t wait to spend Valentine’s with you 😘";
-    }
+  <!-- Supabase SDK -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-    function no() {
-      document.getElementById("response").innerHTML =
-        "Aw 😢 okay… but you’re still special to me 💗";
-    }
-  </script>
+<script>
+  const SUPABASE_URL = "[https://YOUR_PROJECT_ID.supabase.co](https://xhunxjynsnrmkgabdtjz.supabase.co)";
+  const SUPABASE_KEY = "sb_publishable_j5y-wN2t5zzgCXtx3RnkGA_rBaF5hry";
 
-</body>
-</html>
+  const supabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  async function sendResponse(answer) {
+    const { error } = await supabase
+      .from("responses")
+      .insert([{ answer: answer }]);
+
+    if (error) {
+      document.getElementById("response").innerHTML =
+        "Oops 😢 something went wrong";
+      console.error(error);
+    } else {
+      document.getElementById("response").innerHTML =
+        answer === "YES"
+        ? "Yay! 💖 I got your answer 🥰"
+        : "Thank you for being honest 💗";
+    }
+  }
+
+  function yes() {
+    sendResponse("YES 💘");
+  }
+
+  function no() {
+    sendResponse("NO 🙈");
+  }
+</script>
