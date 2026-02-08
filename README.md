@@ -85,7 +85,7 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = "[https://YOUR_PROJECT_ID.supabase.co](https://xhunxjynsnrmkgabdtjz.supabase.co)";
+  const SUPABASE_URL = "https://xhunxjynsnrmkgabdtjz.supabase.co";
   const SUPABASE_KEY = "sb_publishable_j5y-wN2t5zzgCXtx3RnkGA_rBaF5hry";
 
   const supabase = supabase.createClient(
