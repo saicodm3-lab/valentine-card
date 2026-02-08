@@ -47,28 +47,25 @@
   </div>
 
   <!-- Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const SUPABASE_URL = 'https://xhunxjynsnrmkgabdtjz.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhodW54anluc25ybWtnYWJkdGp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MTIwNDksImV4cCI6MjA4NjA4ODA0OX0.o86x2N7GXcyKq-tk0wbKbrgv8lUjWRf6PdRuoTRyCNw';
 
-    const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { createClient } = supabase;
+    const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function sendAnswer(answer) {
-      try {
-        const { data, error } = await client
-          .from('valentine_answers')
-          .insert([{ answer }]);
+      const { error } = await client
+        .from('valentine_answers')
+        .insert([{ answer }]);
 
-        if (error) {
-          alert('Oops! Something went wrong 😢');
-          console.error(error);
-        } else {
-          alert(`Thanks! You clicked ${answer} 💖`);
-        }
-      } catch (err) {
-        console.error(err);
+      if (error) {
+        alert('Oops! Something went wrong :cry:');
+        console.error(error);
+      } else {
+        alert(`Thanks! You clicked ${answer} 💖`);
       }
     }
 
@@ -77,6 +74,6 @@
   });
 </script>
 
-
 </body>
 </html>
+
