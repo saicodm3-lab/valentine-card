@@ -66,22 +66,8 @@
       100% { transform: scale(1); }
     }
   </style>
-</head>
-<body>
 
-  <div class="card">
-    <h1>hi baby 💕</h1>
-    <div class="heart">❤️</div>
-    <p>
-      Will you be my Valentine?<br>
-      Let’s make this day extra special ✨
-    </p>
-    <button onclick="yes()">Yes 💘</button>
-    <button onclick="no()">No 🙈</button>
-    <p id="response"></p>
-  </div>
-
-  <!-- Supabase SDK -->
+<!-- Supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
@@ -111,10 +97,30 @@
   }
 
   function yes() {
-    sendResponse("YES 💘");
+    sendResponse("YES");
+    console.log("yes");
   }
 
   function no() {
-    sendResponse("NO 🙈");
+    sendResponse("NO");
+    console.log("no");
   }
 </script>
+  
+</head>
+<body>
+
+  <div class="card">
+    <h1>hi baby 💕</h1>
+    <div class="heart">❤️</div>
+    <p>
+      Will you be my Valentine?<br>
+      Let’s make this day extra special ✨
+    </p>
+    <button onclick="yes()">Yes 💘</button>
+    <button onclick="no()">No 🙈</button>
+    <p id="response"></p>
+  </div>
+</body>
+
+</html>
